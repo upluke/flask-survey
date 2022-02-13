@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home</title>
-</head>
-<body>
+ {% extends 'base.html' %}
+ {% block title %} Home {% endblock %}
+   
+ 
+ {% block content %}
     <h1>Survey</h1>
     <p>Pick a survey to continue: </p>
     <ul>
@@ -13,5 +10,4 @@
       <li><a href="/survey/{{type}}">{{type}}</a></li>
       {% endfor %}
     </ul>
-</body>
-</html>
+ {% endblock %}
