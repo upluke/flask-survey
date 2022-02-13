@@ -16,3 +16,7 @@ def home():
 @app.route('/survey/satisfaction')
 def handle_satisfaction_survey():
     return render_template('satisfaction_survey.html')
+
+@app.route('/survey/personality')
+def handle_personality_quiz():
+    return render_template('personality_quiz.html')
