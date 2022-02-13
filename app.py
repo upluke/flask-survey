@@ -6,15 +6,13 @@ responses = []
 
 print()
 
-@app.route("/")
-def hello_world():
-    return "<h1>Hello, World!</h1>"
+ 
 
-# @app.route('/')
-# def home():
-#     return render_template('home.html',   survey_types=surveys.keys())
+@app.route('/')
+def home():
+    return render_template('home.html',   survey_types=surveys.keys())
 
 
-# @app.route('survey/satisfaction')
-# def handle_satisfaction_survey():
-#     return render_template('satisfaction_survey')
+@app.route('/survey/satisfaction')
+def handle_satisfaction_survey():
+    return render_template('satisfaction_survey.html')
