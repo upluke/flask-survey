@@ -6,6 +6,13 @@
    <h1>Survey</h1>
    
  
-    <p> {{question}} </p>
+   <p> {{question}} </p>
+   <form action="/answer" >
+  
+      <input type="radio"  name="option" value="Yes">Yes</input>
+      
+      <input type="radio"  name="option" value="No">No</input>
    
+      <button>Submit</button>
+   </form>
 {% endblock %}

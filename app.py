@@ -1,8 +1,8 @@
 from copyreg import constructor
 from select import select
 from unicodedata import category
-from surveys import Question, surveys
-from flask import Flask, redirect, render_template
+from surveys import surveys
+from flask import Flask,request, redirect, render_template
 app = Flask(__name__)
 #  initialize a variable called responses to be an empty list. As people answer questions, you should store their answers in this list.
 responses = []
@@ -24,6 +24,13 @@ def render_instruction(surveyname):
 
 @app.route('/survey_question/<surveyname>/<int:question_idx>')
 def render_question(surveyname,question_idx):
-    question=surveys[surveyname].questions[question_idx].question
-    return render_template('survey_question.html', question=question)
+    selected_question_obj=surveys[surveyname].questions[question_idx]
+    question=selected_question_obj.question
+    choices=selected_question_obj.choices
+    return render_template('survey_question.html', question=question, choices=choices)
 
+@app.route('/answer' )
+def handle_question_submit():
+    option = request.args["option"]
+    responses.append(option)
+    return render_template('answer.html', option=option )
