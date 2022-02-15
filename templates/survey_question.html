@@ -9,9 +9,14 @@
    <p> {{question}} </p>
    <form action="/answer" >
   
-      <input type="radio"  name="option" value="Yes">Yes</input>
-      
-      <input type="radio"  name="option" value="No">No</input>
+ 
+
+      {% for choice in choices %}
+      <input type="radio" name="option" value="{{choice}}">{{choice}}</input> 
+      {%  endfor %}
+
+    
+  
    
       <button>Submit</button>
    </form>
