@@ -7,10 +7,8 @@
    
  
    <p> {{question}} </p>
-   <form action="/answer" >
+   <form action="/survey_question/{{surveyname}}/{{question_idx+1}}" >
   
- 
-
       {% for choice in choices %}
       <input type="radio" name="option" value="{{choice}}">{{choice}}</input> 
       {%  endfor %}

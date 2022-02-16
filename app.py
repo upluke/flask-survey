@@ -24,13 +24,25 @@ def render_instruction(surveyname):
 
 @app.route('/survey_question/<surveyname>/<int:question_idx>')
 def render_question(surveyname,question_idx):
-    selected_question_obj=surveys[surveyname].questions[question_idx]
-    question=selected_question_obj.question
-    choices=selected_question_obj.choices
-    return render_template('survey_question.html', question=question, choices=choices)
+    
+    selected_question_obj=surveys[surveyname]
+    question_idx=question_idx-1
+ 
+    if question_idx>0:
+      option = request.args['option']
+      responses.append(option)  
+    
+    if question_idx>=len(selected_question_obj.questions):
+      return redirect('/answer')
+   
+    question=selected_question_obj.questions[question_idx].question
+    choices=selected_question_obj.questions[question_idx].choices
+   
+    question_idx=question_idx+1
+ 
+    return render_template('survey_question.html', question=question, choices=choices, surveyname=surveyname, question_idx=question_idx)
 
 @app.route('/answer' )
 def handle_question_submit():
-    option = request.args["option"]
-    responses.append(option)
-    return render_template('answer.html', option=option )
+    return render_template('answer.html')
+
