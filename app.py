@@ -27,14 +27,18 @@ def render_question( surveyname,question_idx):
 
     selected_question_obj=surveys[surveyname]
     question_idx=question_idx-1
-    question=selected_question_obj.questions[question_idx].question
-    choices=selected_question_obj.questions[question_idx].choices
+    if question_idx<len(selected_question_obj.questions):
+        question=selected_question_obj.questions[question_idx].question
+        choices=selected_question_obj.questions[question_idx].choices
     print(current_idx, question_idx, responses)
+
+
+
     if len(request.args):
       option = request.args['option']
       responses.append(option)
 
-    if len(request.args)>=len(selected_question_obj.questions)-1:
+    if current_idx>=len(selected_question_obj.questions):
         return redirect('/answer')
 
  
