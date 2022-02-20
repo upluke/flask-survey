@@ -6,7 +6,8 @@ from flask import Flask,request, redirect, render_template
 app = Flask(__name__)
 #  initialize a variable called responses to be an empty list. As people answer questions, you should store their answers in this list.
 responses = []
-current_idx=1
+current_idx=0
+check_idx=1
 @app.route('/')
 def home():
     return render_template('home.html',   survey_types=surveys.keys())
@@ -21,38 +22,32 @@ def render_instruction(surveyname):
 @app.route('/survey_question/<surveyname>/<int:question_idx>')
 def render_question( surveyname,question_idx):
     global current_idx
-    print(current_idx, question_idx)
+    print(current_idx, question_idx, responses)
     print("args: ", len(request.args))
 
-    if current_idx==question_idx:
-      selected_question_obj=surveys[surveyname]
-      question_idx=question_idx-1
-      question=selected_question_obj.questions[question_idx].question
-      choices=selected_question_obj.questions[question_idx].choices
+    selected_question_obj=surveys[surveyname]
+    question_idx=question_idx-1
+    question=selected_question_obj.questions[question_idx].question
+    choices=selected_question_obj.questions[question_idx].choices
+    print(current_idx, question_idx, responses)
+    if len(request.args):
+      option = request.args['option']
+      responses.append(option)
 
-      if len(request.args)>0 :
-        option = request.args['option']
-        responses.append(option)  
-
-      if question_idx>1 and len(request.args)==0:
-        print("here")
-        current_idx=1 
-        return redirect(f'/survey_question/{surveyname}/1')
-      
-              
-      if len(request.args)>=len(selected_question_obj.questions):
+    if len(request.args)>=len(selected_question_obj.questions)-1:
         return redirect('/answer')
-          
-      
-    
-      question_idx=question_idx+1
-      current_idx+=1
 
+ 
+    elif current_idx==question_idx:
+       
+
+      current_idx+=1     
+      question_idx=question_idx+1
       return render_template('survey_question.html', question=question, choices=choices, surveyname=surveyname, question_idx=question_idx)
+     
     else: 
-      print("inininininni")
-      
-      return redirect(f'/survey_question/{surveyname}/{current_idx}')
+      if current_idx<len(selected_question_obj.questions):
+        return redirect(f'/survey_question/{surveyname}/{current_idx}')
      
 @app.route('/answer' )
 def handle_question_submit():
