@@ -2,8 +2,9 @@ from copyreg import constructor
 from select import select
 from unicodedata import category
 from surveys import surveys
-from flask import Flask,request, redirect, render_template
+from flask import Flask,request, redirect, render_template, flash
 app = Flask(__name__)
+app.config['SECRET_KEY'] = "dumbonudumb"
 #  initialize a variable called responses to be an empty list. As people answer questions, you should store their answers in this list.
 responses = []
 current_idx=0
@@ -49,10 +50,11 @@ def render_question( surveyname,question_idx):
       print("after1: ",current_idx, question_idx, responses)
       return render_template('survey_question.html', question=question, choices=choices, surveyname=surveyname, question_idx=question_idx)
     else: 
+      
       if current_idx<len(selected_question_obj.questions):
         current_idx-=1
         responses=responses[:current_idx+1] #without gloable: UnboundLocalError: local variable 'responses' referenced before assignment
-         
+        flash("Please don't skip questions!")
         print("after2: ",current_idx, question_idx, responses)
         return redirect(f'/survey_question/{surveyname}/{current_idx+1}')
      

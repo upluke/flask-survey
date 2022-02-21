@@ -1,3 +1,9 @@
 body {
   background-color: tan;
 }
+.messages p {
+  padding: 1rem;
+  font-size: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+}
