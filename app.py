@@ -22,7 +22,7 @@ def render_instruction(surveyname):
 @app.route('/survey_question/<surveyname>/<int:question_idx>')
 def render_question( surveyname,question_idx):
     global current_idx
-    print(current_idx,'--', question_idx,'--', responses)
+    global responses 
     print("args: ", len(request.args))
 
     selected_question_obj=surveys[surveyname]
@@ -39,9 +39,8 @@ def render_question( surveyname,question_idx):
     if current_idx>=len(selected_question_obj.questions):
 
         return redirect('/answer') 
-    elif current_idx==question_idx or question_idx==0 and current_idx==0:
+    elif current_idx==question_idx and len(request.args) or question_idx==0 and current_idx==0:
       if len(request.args):
-        print("iiiiiiiiiiiii")
         option = request.args['option']
         responses.append(option)
       current_idx+=1
@@ -52,6 +51,8 @@ def render_question( surveyname,question_idx):
     else: 
       if current_idx<len(selected_question_obj.questions):
         current_idx-=1
+        responses=responses[:current_idx+1] #without gloable: UnboundLocalError: local variable 'responses' referenced before assignment
+         
         print("after2: ",current_idx, question_idx, responses)
         return redirect(f'/survey_question/{surveyname}/{current_idx+1}')
      
